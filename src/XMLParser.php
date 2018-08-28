@@ -39,6 +39,10 @@ class XMLParser
             $xmlParser = @simplexml_load_string($content);
         }
 
+        if(false === $xmlParser){
+            throw new EasyXMLException("Failed to load XML.");
+        }
+
         // set the contents and parser
         $this->originalContent = $content;
         $this->xmlParser = $xmlParser;
