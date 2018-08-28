@@ -1,0 +1,27 @@
+{
+    "name": "anik/easy-xml",
+    "description": "Easy XML is an XML parser for PHP.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Syed Sirajul Islam Anik",
+            "email": "sirajul.islam.anik@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "EasyXML\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.6",
+        "ext-libxml": "*",
+        "ext-curl": "*",
+        "icanboogie/inflector": "dev-master"
+    }
+}
