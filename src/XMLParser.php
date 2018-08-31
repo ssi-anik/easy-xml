@@ -5,6 +5,8 @@ class XMLParser
     public $guessType = false;
     public $omitEmpty = false;
     public $keepRoot = true;
+    public $keepAttributes = true;
+    public $attributesToElement = true;
 
     private $path = null;
     private $xmlParser = null;
@@ -29,17 +31,17 @@ class XMLParser
         // set the parser to SimpleXML
         if (file_exists($this->path)) {
             $content = file_get_contents($this->path);
-            $xmlParser = @simplexml_load_file($this->path);
+            $xmlParser = simplexml_load_file($this->path);
         } else {
             if (filter_var($this->path, FILTER_VALIDATE_URL)) {
                 $content = load_from_url($this->path);
             } else {
                 $content = $this->path;
             }
-            $xmlParser = @simplexml_load_string($content);
+            $xmlParser = simplexml_load_string($content);
         }
 
-        if(false === $xmlParser){
+        if (false === $xmlParser) {
             throw new EasyXMLException("Failed to load XML.");
         }
 
@@ -51,12 +53,7 @@ class XMLParser
         if ($this->keepRoot == true) {
             $this->rootName = $xmlParser->getName();
         }
-
         // xml parser to json
-        $encodedJSON = json_encode($xmlParser);
-        if (!empty($rootName = $this->rootName)) {
-            $encodedJSON = json_encode([ $rootName => json_decode($encodedJSON, true) ]);
-        }
-        return $encodedJSON;
+        return json_decode(json_encode($this->rootName ? [ $this->rootName => $this->xmlParser ] : $this->xmlParser), true);
     }
 }
